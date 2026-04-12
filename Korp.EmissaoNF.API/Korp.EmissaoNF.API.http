@@ -1,0 +1,6 @@
+@Korp.EmissaoNF.API_HostAddress = http://localhost:5225
+
+GET {{Korp.EmissaoNF.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Korp.EmissaoNF.API/Korp.EmissaoNF.API.csproj" Id="d1b95c72-5cd5-4de4-a42c-5e4bc246ee3e" />
+  <Project Path="Korp.Estoque.API/Korp.Estoque.API.csproj" />
+</Solution>

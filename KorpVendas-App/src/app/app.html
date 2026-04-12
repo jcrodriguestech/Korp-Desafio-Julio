@@ -1,0 +1,83 @@
+<div class="main-container">
+  
+  <div class="dashboard-grid">
+    <div class="card">
+      <h1 class="korp-title">Cadastrar Produto</h1>
+      <div class="form-group">
+        <label class="korp-label">Código:</label>
+        <input type="text" [(ngModel)]="novoProduto.codigo" placeholder="Ex: KORP-001" class="korp-input full-width">
+        
+        <label class="korp-label">Descrição:</label>
+        <input type="text" [(ngModel)]="novoProduto.descricao" placeholder="Nome do produto" class="korp-input full-width">
+        
+        <label class="korp-label">Quantidade:</label>
+        <input type="number" [(ngModel)]="novoProduto.quantidade" class="korp-input full-width">
+        
+        <button (click)="salvar()" class="korp-button full-width" style="margin-top: 10px;">Salvar Produto</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h1 class="korp-title">Emitir Nota Fiscal</h1>
+      <div class="form-group">
+        <label class="korp-label">Código do Produto:</label>
+        <input type="text" [(ngModel)]="novaNota.codigoProduto" placeholder="Ex: KORP-001" class="korp-input full-width">
+        
+        <label class="korp-label">Quantidade:</label>
+        <input type="number" [(ngModel)]="novaNota.quantidade" class="korp-input full-width">
+        
+        <button (click)="gerarNota()" class="korp-button full-width" style="margin-top: 10px;">Emitir NF</button>
+      </div>
+    </div>
+  </div>
+
+  <hr class="korp-divider">
+
+  <div class="dashboard-grid">
+    <div class="table-section">
+      <h2 class="korp-title">Estoque Atual</h2>
+      <table class="korp-table">
+        <thead>
+          <tr>
+            <th>Cód.</th>
+            <th>Qtd.</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let p of produtos">
+            <td>{{ p.codigo }}</td>
+            <td>{{ p.quantidade }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-section">
+      <h2 class="korp-title">Últimas Notas</h2>
+      <table class="korp-table">
+        <thead>
+          <tr>
+            <th>NF</th>
+            <th>Status</th>
+            <th>Ação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let nota of notas">
+            <td>{{ nota.numeroNota || nota.id }}</td> <td>
+              <span class="status-badge" [class.status-aberta]="nota.status === 'Aberta'">
+                {{ nota.status }}
+              </span>
+              </td>
+            <td>
+              <button (click)="imprimir(nota.id)" [disabled]="nota.status === 'Fechada'">
+                🖨️
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
