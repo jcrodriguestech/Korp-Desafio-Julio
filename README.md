@@ -1,4 +1,4 @@
-Desafio Técnico Korp - Sistema de Vendas
+## Desafio Técnico Korp - Sistema de Vendas ##
 
 Este projeto foi desenvolvido como parte do processo seletivo para a Korp. A solução consiste em uma arquitetura de microsserviços para gestão de estoque e emissão de Notas Fiscais, priorizando a integridade dos dados e a comunicação entre sistemas.
 
