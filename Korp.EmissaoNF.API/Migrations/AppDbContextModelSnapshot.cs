@@ -30,6 +30,10 @@ namespace Korp.EmissaoNF.API.Migrations
                     b.Property<DateTime>("DataEmissao")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("DescricaoProduto")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("NumeroNota")
                         .HasColumnType("TEXT");
 

@@ -1,6 +1,6 @@
 import {
   PlatformLocation
-} from "./chunk-FAISMIAK.js";
+} from "./chunk-JTRKPN3D.js";
 import {
   ApplicationRef,
   Attribute,
@@ -31,7 +31,6 @@ import {
   Renderer2,
   RendererStyleFlags2,
   RuntimeError,
-  Subject,
   TemplateRef,
   Version,
   ViewContainerRef,
@@ -63,7 +62,10 @@ import {
   ɵɵinject,
   ɵɵinjectAttribute,
   ɵɵstyleProp
-} from "./chunk-VWCLIL5T.js";
+} from "./chunk-7YB6YR3W.js";
+import {
+  Subject
+} from "./chunk-MARUHEWW.js";
 import {
   __spreadProps,
   __spreadValues
@@ -4663,4 +4665,4 @@ export {
   PRECONNECT_CHECK_BLOCKLIST,
   NgOptimizedImage
 };
-//# sourceMappingURL=chunk-2P7DEE3O.js.map
+//# sourceMappingURL=chunk-ZMJWYCXH.js.map

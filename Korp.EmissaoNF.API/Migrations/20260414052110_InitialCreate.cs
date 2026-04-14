@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Korp.EmissaoNF.API.Migrations
 {
     /// <inheritdoc />
-    public partial class InicialFaturamento : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,6 +18,7 @@ namespace Korp.EmissaoNF.API.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     CodigoProduto = table.Column<string>(type: "TEXT", nullable: false),
+                    DescricaoProduto = table.Column<string>(type: "TEXT", nullable: false),
                     Quantidade = table.Column<int>(type: "INTEGER", nullable: false),
                     NumeroNota = table.Column<string>(type: "TEXT", nullable: true),
                     DataEmissao = table.Column<DateTime>(type: "TEXT", nullable: false),

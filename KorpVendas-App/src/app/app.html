@@ -4,29 +4,48 @@
     <div class="card">
       <h1 class="korp-title">Cadastrar Produto</h1>
       <div class="form-group">
-        <label class="korp-label">Código:</label>
-        <input type="text" [(ngModel)]="novoProduto.codigo" placeholder="Ex: KORP-001" class="korp-input full-width">
+        <label class="korp-label">Código do Produto:</label>
+        <input type="text" [(ngModel)]="novoProduto.codigo" placeholder="Ex: KORP-001" class="korp-input">
         
         <label class="korp-label">Descrição:</label>
-        <input type="text" [(ngModel)]="novoProduto.descricao" placeholder="Nome do produto" class="korp-input full-width">
+        <input type="text" [(ngModel)]="novoProduto.descricao" placeholder="Nome do produto" class="korp-input">
         
         <label class="korp-label">Quantidade:</label>
-        <input type="number" [(ngModel)]="novoProduto.quantidade" class="korp-input full-width">
+        <input type="number" [(ngModel)]="novoProduto.quantidade" class="korp-input">
         
-        <button (click)="salvar()" class="korp-button full-width" style="margin-top: 10px;">Salvar Produto</button>
+        <div class="button-container">
+          <button (click)="salvar()" class="korp-button" [disabled]="carregandoProduto">
+            <div *ngIf="carregandoProduto" class="spinner"></div>
+            <span>{{ carregandoProduto ? 'Processando...' : 'Salvar Produto' }}</span>
+          </button>
+          
+          <span *ngIf="mensagemSucessoProduto" class="inline-success-msg">{{ mensagemSucessoProduto }}</span>
+          <span *ngIf="mensagemErroProduto" class="inline-error-msg">{{ mensagemErroProduto }}</span>
+        </div>
       </div>
     </div>
 
     <div class="card">
-      <h1 class="korp-title">Emitir Nota Fiscal</h1>
+      <h1 class="korp-title">Nota Fiscal</h1>
       <div class="form-group">
         <label class="korp-label">Código do Produto:</label>
-        <input type="text" [(ngModel)]="novaNota.codigoProduto" placeholder="Ex: KORP-001" class="korp-input full-width">
+        <input type="text" [(ngModel)]="novaNota.codigoProduto" placeholder="Ex: KORP-001" class="korp-input">
         
+        <label class="korp-label">Descrição:</label>
+        <input type="text" [(ngModel)]="novaNota.descricaoProduto" placeholder="Nome do produto" class="korp-input">
+
         <label class="korp-label">Quantidade:</label>
-        <input type="number" [(ngModel)]="novaNota.quantidade" class="korp-input full-width">
+        <input type="number" [(ngModel)]="novaNota.quantidade" class="korp-input">
         
-        <button (click)="gerarNota()" class="korp-button full-width" style="margin-top: 10px;">Emitir NF</button>
+        <div class="button-container">
+          <button (click)="gerarNota()" class="korp-button" [disabled]="carregandoNF">
+            <div *ngIf="carregandoNF" class="spinner"></div>
+            <span>{{ carregandoNF ? 'Emitindo...' : 'Emitir NF' }}</span>
+          </button>
+          
+          <span *ngIf="mensagemSucessoNF" class="inline-success-msg">{{ mensagemSucessoNF }}</span>
+          <span *ngIf="mensagemErroNF" class="inline-error-msg">{{ mensagemErroNF }}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -34,50 +53,65 @@
   <hr class="korp-divider">
 
   <div class="dashboard-grid">
+    
     <div class="table-section">
-      <h2 class="korp-title">Estoque Atual</h2>
-      <table class="korp-table">
+      <h1 class="korp-title">Estoque Atual</h1>
+      
+      <div *ngIf="erroCarregarEstoque" class="error-placeholder">
+        {{ erroCarregarEstoque }}
+      </div>
+
+      <table class="korp-table" *ngIf="!erroCarregarEstoque && produtos.length > 0">
         <thead>
           <tr>
-            <th>Cód.</th>
-            <th>Qtd.</th>
+            <th>Código</th>
+            <th>Produto</th>
+            <th class="text-right">Saldo</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let p of produtos">
             <td>{{ p.codigo }}</td>
-            <td>{{ p.quantidade }}</td>
+            <td>{{ p.descricao }}</td>
+            <td class="text-right">{{ p.quantidade }}</td>
           </tr>
         </tbody>
       </table>
     </div>
 
     <div class="table-section">
-      <h2 class="korp-title">Últimas Notas</h2>
-      <table class="korp-table">
+      <h1 class="korp-title">Últimas Notas</h1>
+
+      <div *ngIf="erroCarregarNotas" class="error-placeholder">
+        {{ erroCarregarNotas }}
+      </div>
+
+      <table class="korp-table" *ngIf="!erroCarregarNotas && notas.length > 0">
         <thead>
           <tr>
-            <th>NF</th>
+            <th>Nota Fiscal</th>
             <th>Status</th>
-            <th>Ação</th>
+            <th>Imprimir</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let nota of notas">
-            <td>{{ nota.numeroNota || nota.id }}</td> <td>
-              <span class="status-badge" [class.status-aberta]="nota.status === 'Aberta'">
-                {{ nota.status }}
-              </span>
-              </td>
-            <td>
-              <button (click)="imprimir(nota.id)" [disabled]="nota.status === 'Fechada'">
-                🖨️
-              </button>
+          <tr *ngFor="let nota of notas"><td>{{ nota.id }}</td>
+            <td [ngClass]="{
+              'status-aberta': nota.status === 'Aberta',
+              'status-fechada': nota.status === 'Fechada'
+              }">{{ nota.status }}
             </td>
+            <button (click)="imprimir(nota.id)" class="korp-button-secondary" [disabled]="imprimindoId === nota.id || nota.status === 'Fechada'">
+              <ng-container [ngSwitch]="true">
+                <span *ngSwitchCase="imprimindoId === nota.id" class="mini-spinner"></span>
+                <span *ngSwitchCase="nota.status === 'Fechada'">🖨️</span>
+                <span *ngSwitchDefault>🖨️</span>
+              </ng-container>
+            </button>
           </tr>
         </tbody>
       </table>
     </div>
-  </div>
 
+  </div>
 </div>

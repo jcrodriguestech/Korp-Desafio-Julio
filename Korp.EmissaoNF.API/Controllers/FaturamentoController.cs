@@ -36,6 +36,7 @@ namespace Korp.EmissaoNF.API.Controllers
             var response = await _httpClient.PostAsJsonAsync($"http://localhost:5224/api/produtos/baixa", new
             {
                 codigo = nota.CodigoProduto,
+                descricao = nota.DescricaoProduto,
                 quantidade = nota.Quantidade
             });
 
